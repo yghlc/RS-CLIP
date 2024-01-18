@@ -247,7 +247,8 @@ def run_training(args):
                      txt_path='test_{}.txt'.format(season))
     else:
         if 'ucm' in args.dataset.lower():
-            data_root='./data/UCMerced_LandUse/'
+            # data_root='./data/UCMerced_LandUse/'
+            data_root=os.path.expanduser('~/Data/image_classification/UCMerced_LandUse/')
         elif 'whurs' in args.dataset.lower():
             data_root='./data/WHU-RS19/'
         elif 'nwpu' in args.dataset.lower():

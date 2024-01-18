@@ -158,7 +158,8 @@ def run_gen(args):
         
     else:
         if 'ucm' in args.dataset.lower():
-            data_root='./data/UCMerced_LandUse/'
+            # data_root='./data/UCMerced_LandUse/'
+            data_root=os.path.expanduser('~/Data/image_classification/UCMerced_LandUse/')
         elif 'whurs' in args.dataset.lower():
             data_root='./data/WHU-RS19/'
         elif 'nwpu' in args.dataset.lower():
@@ -215,7 +216,8 @@ def run_gen(args):
             correct += (label==c)
             correct_all += (label==c)
             im = np.array(torch.squeeze(im).permute(1, 2, 0))
-            fp_train.writelines(im_path + ', ' + str(c) + ', ' + str(label) + '\n')
+            # fp_train.writelines(im_path + ', ' + str(c) + ', ' + str(label) + '\n')
+            fp_train.writelines(im_path + ' ' + str(c) + ' ' + str(label) + '\n')
             train_cnt += 1
     print('pseudo accuracy: {:.4f}'.format(correct_all/(len(classes)*topk)))
     fp_train.close()
@@ -229,7 +231,8 @@ def run_gen(args):
     for item in all_list:
         im_path, label = item
         if im_path not in all_train[:, 0]:
-            fp_valid.writelines(im_path + ', ' + str(label) + '\n')
+            # fp_valid.writelines(im_path + ', ' + str(label) + '\n')
+            fp_valid.writelines(im_path + ' ' + str(label) + '\n')
             test_cnt += 1
 
     fp_valid.close()
