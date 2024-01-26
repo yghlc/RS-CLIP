@@ -62,7 +62,8 @@ def evaluate(model, test_loader, device):
     model.eval()
     model.float()
     text_descriptions = [prompt.format(label) for label in test_loader.dataset.classes]
-    text_tokens = clip.tokenize(text_descriptions).cuda()
+    # text_tokens = clip.tokenize(text_descriptions).cuda()
+    text_tokens = clip.tokenize(text_descriptions).to(device)
 
     text_features = model.encode_text(text_tokens).float()
     text_features /= text_features.norm(dim=-1, keepdim=True)
@@ -99,9 +100,11 @@ def run_gen(args):
     
     os.environ['CUDA_DEVICE_ORDER']='PCI_BUS_ID'
     os.environ['CUDA_VISIBLE_DEVICES']=str(args.gpu)
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     
-    model, preprocess = clip.load(args.vis_model)
-    model.cuda().eval()
+    model, preprocess = clip.load(args.vis_model,device=device)
+    # model.cuda().eval()
     
     input_resolution = model.visual.input_resolution
     context_length = model.context_length
@@ -184,8 +187,7 @@ def run_gen(args):
         batch_size=128, shuffle=False,
         num_workers=4, pin_memory=True)
 
-
-    device = torch.device("cuda:0")
+    # device = torch.device("cuda:0")
 
     if os.path.isfile(args.load_from):
         checkpoint = torch.load(open(args.load_from, 'rb'), map_location="cpu")
