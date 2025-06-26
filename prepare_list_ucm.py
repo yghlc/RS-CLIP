@@ -3,7 +3,7 @@ all_list = []
 all_label = []
 
 # data_root = 'NWPU-RESISC45/'
-data_root = os.path.expanduser('~/Data/image_classification/UCMerced_LandUse/')
+data_root = os.path.expanduser('~/Data/public_data_AI/UCMerced_LandUse/')
 
 all_classes = os.listdir(data_root + 'Images/')
 print(all_classes)
